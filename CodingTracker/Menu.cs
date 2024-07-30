@@ -1,39 +1,36 @@
+using Spectre.Console;
+
 namespace CodingTracker;
 
 public class Menu()
 {
     public static void ShowMenu()
     {
-        Console.Clear();
-        bool isOn = true;
 
-        do
+        // SpectreConsole Test
+        string option = AnsiConsole.Prompt(new SelectionPrompt<string>()
+        .Title("Welcome to Coding Tracker")
+        .AddChoices(new[] {
+            "0. Close the Application", "1. Show all Sessions", "2. Start a new session", "3. Modify a Session", "4. Start", "5. End",
+            })
+        );
+
+        switch (option)
         {
-            Console.WriteLine("Coding Tracker");
-            Console.WriteLine("0. Close the application");
-            Console.WriteLine("1. Show all Sessions");
-            Console.WriteLine("2. Start a new session");
+            case "0. Close The Application":
+                break;
+            case "1. Show all Sessions":
+                // Show all sessions
+                break;
+            case "2. Start a new session":
+                // Start a new session
+                break;
+            case "3. Modify a session":
+                // Modify a session
+                // Allows the user to enter a new time
+                break;
 
-            Console.Write("Your option is: ");
-            string? option = Console.ReadLine();
-
-            switch (option)
-            {
-                case "0":
-                    isOn = false;
-                    break;
-                case "1":
-                    // Show all sessions
-                    break;
-                case "2":
-                    // Start a new session
-                    break;
-
-            }
-
-
-
-        } while (isOn);
+        }
 
     }
 }
