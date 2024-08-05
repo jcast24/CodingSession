@@ -1,12 +1,10 @@
 using Spectre.Console;
 
 namespace CodingTracker;
-
 public class Menu()
 {
     public static void ShowMenu()
     {
-
         // SpectreConsole Test
         string option = AnsiConsole.Prompt(new SelectionPrompt<string>()
         .Title("Welcome to Coding Tracker")
