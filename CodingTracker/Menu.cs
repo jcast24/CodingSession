@@ -27,6 +27,18 @@ public class Menu()
                 // Modify a session
                 // Allows the user to enter a new time
                 break;
+            case "4. Start":
+                // Start timer 
+                // If the timer has already started then, shoot message "Timer has been running"
+                break;
+            case "5. End":
+                // End timer 
+                // If the time isn't running, shoot message "Timer never started"
+                break;
+            default:
+                Console.WriteLine("Please choose an option!");
+                break;
+
 
         }
 
