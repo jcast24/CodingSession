@@ -4,24 +4,27 @@ namespace CodingTracker;
 
 internal class DatabaseManager
 {
-    internal void CreateTable(string connectionString)
+    public static void CreateTable(string connectionString)
     {
-        // Establish connection with db 
-        using var connection = new SqliteConnection(connectionString);
+        try
+        {
+            using var connection = new SqliteConnection(connectionString);
+            connection.Open();
 
-        // open the connection
-        connection.Open();
+            // tell connection to create command
+            var tableCmd = connection.CreateCommand();
 
-        // tell connection to create command 
-        var tableCmd = connection.CreateCommand();
+            // create the table if it doesn't exist
+            tableCmd.CommandText =
+                @"CREATE TABLE IF NOT EXISTS coding (Id INTEGER PRIMARY KEY AUTOINCREMENT, Date TEXT NOT NULL, Duration TEXT NOT NULL)";
 
-        // create the table if it doesn't exist
-        tableCmd.CommandText = @"CREATE TABLE IF NOT EXISTS coding (Id INTEGER PRIMARY KEY AUTOINCREMENT, Date TEXT, Duration TEXT)";
+            tableCmd.ExecuteNonQuery();
 
-        tableCmd.ExecuteNonQuery();
-
-        Console.WriteLine("Success");
-
-        connection.Close();
+            connection.Close();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
