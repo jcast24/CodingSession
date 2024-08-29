@@ -2,7 +2,7 @@ using System.Data.SQLite;
 
 namespace CodingTracker;
 
-internal class DatabaseService
+public class DatabaseService
 {
     private readonly string _connectionString;
 
