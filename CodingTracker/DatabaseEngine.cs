@@ -1,5 +1,6 @@
 // Handle all CRUD operations with database here
 using System.Data.SQLite;
+using System.Globalization;
 using Dapper;
 
 namespace CodingTracker;
@@ -56,8 +57,26 @@ public class Engine
     public void InsertSession()
     {
         string date = Watch.GetCurrentDate(); 
-        Console.WriteLine("Insert a new session here!");
-        Console.WriteLine(date);
+        // string time = Watch.GetCurrentTime();
+        // Console.WriteLine("Insert a new session here!");
+        // Console.WriteLine($"{date} {time}");
+        //
+        Console.WriteLine("Enter your start time: ");
+        string? getStartTime = Console.ReadLine();
+
+        Console.WriteLine("Enter your end time: ");
+        string? getEndTime = Console.ReadLine();
+
+        // Calculate the duration between start and endtime
+        // Convert getStartTime && getEndTime to TimeSpan
+
+        TimeSpan startTime = TimeSpan.Parse(getStartTime, new CultureInfo("en-US"));
+        TimeSpan endTime = TimeSpan.Parse(getEndTime, new CultureInfo("en-US"));
+
+        TimeSpan duration = endTime - startTime;
+
+        Console.WriteLine($"Date:{date}\nStart:{getStartTime}\nEnd:{getEndTime}\nDuration:{duration}");
+        
     }
 
     // Update a session
