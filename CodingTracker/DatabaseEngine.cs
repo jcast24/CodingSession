@@ -1,6 +1,5 @@
 // Handle all CRUD operations with database here
 using System.Data.SQLite;
-using System.Globalization;
 using Dapper;
 
 namespace CodingTracker;
@@ -14,37 +13,17 @@ public class Engine
         _dbService = dbService;
     }
 
-    // Get the date
-    public static DateTime GetDate()
-    {
-        Console.WriteLine("Please enter the date with the format (dd-mm-yyyy): ");
-        string getDate = Console.ReadLine() ?? "";
-
-        string format = "dd-mm-yyyy";
-
-        CultureInfo provider = CultureInfo.InvariantCulture;
-        bool checkDate = DateTime.TryParseExact(
-            getDate,
-            format,
-            provider,
-            DateTimeStyles.None,
-            out DateTime parsedDate
-        );
-        return parsedDate;
-    }
-
     public void CreateTable()
     {
         using (var connection = _dbService.CreateConnection())
         {
             string createTableQuery =
                 @"CREATE TABLE IF NOT EXISTS tracker (
-            Id INTEGER PRIMARY KEY,
-            Date TEXT NOT NULL,
-            StartTime TEXT NOT NULL,
-            EndTime TEXT NOT NULL, 
-            Duration TEXT NOT NULL
-            )";
+                Id INTEGER PRIMARY KEY,
+                Date TEXT NOT NULL,
+                StartTime TEXT NOT NULL,
+                EndTime TEXT NOT NULL, 
+                Duration TEXT NOT NULL )";
 
             using var command = new SQLiteCommand(createTableQuery, connection);
             command.ExecuteNonQuery();
@@ -52,16 +31,33 @@ public class Engine
         }
     }
 
-    // Create a session
-    public void InsertSession()
-    {
-        Console.WriteLine("Insert a new session here!");
-    }
-
     // Display all times
     public void DisplayAllSessions()
     {
-        Console.WriteLine("Display all sessions");
+        using (var connection = _dbService.CreateConnection())
+        {
+            var reader = connection.ExecuteReader("SELECT * FROM tracker");
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string date = reader.GetString(1);
+                string startTime = reader.GetString(2);
+                string endTime = reader.GetString(3);
+                string duration = reader.GetString(4);
+
+                Console.WriteLine($"{id} {date} {startTime} {endTime} {duration}");
+            }
+        }
+    }
+
+    // Create a session
+    // Ask user if they would like to enter a start time and endtime or if they would like to use the stopwatch
+    public void InsertSession()
+    {
+        string date = Watch.GetCurrentDate(); 
+        Console.WriteLine("Insert a new session here!");
+        Console.WriteLine(date);
     }
 
     // Update a session
