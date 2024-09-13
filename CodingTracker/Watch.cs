@@ -23,9 +23,19 @@ class Watch
         return parsedDate;
     }
 
-    public static string GetCurrentDate() {
-      DateTime today = DateTime.Today;
-      return today.ToString("d", CultureInfo.CreateSpecificCulture("en-US"));;
+    // Get the current Date 
+    public static DateTime GetCurrentDate()
+    {
+        DateTime today = DateTime.Today;
+        return today;
+        // return today.ToString("d", CultureInfo.CreateSpecificCulture("en-US"));
+    }
+
+    // Get the current time 
+    public static string GetCurrentTime()
+    {
+        DateTime time = DateTime.Now;
+        return time.ToString("hh:mm");
     }
 
     public static DateTime Start()
