@@ -56,11 +56,6 @@ public class Engine
     // Ask user if they would like to enter a start time and endtime or if they would like to use the stopwatch
     public void InsertSession()
     {
-        string date = Watch.GetCurrentDate(); 
-        // string time = Watch.GetCurrentTime();
-        // Console.WriteLine("Insert a new session here!");
-        // Console.WriteLine($"{date} {time}");
-        //
         Console.WriteLine("Enter your start time: ");
         string? getStartTime = Console.ReadLine();
 
@@ -69,14 +64,28 @@ public class Engine
 
         // Calculate the duration between start and endtime
         // Convert getStartTime && getEndTime to TimeSpan
-
         TimeSpan startTime = TimeSpan.Parse(getStartTime, new CultureInfo("en-US"));
         TimeSpan endTime = TimeSpan.Parse(getEndTime, new CultureInfo("en-US"));
-
         TimeSpan duration = endTime - startTime;
 
-        Console.WriteLine($"Date:{date}\nStart:{getStartTime}\nEnd:{getEndTime}\nDuration:{duration}");
-        
+        // Get the current date 
+        DateTime getDate = Watch.GetCurrentDate();
+
+        using (var connection = _dbService.CreateConnection())
+        {
+            CodingSession newSession = new CodingSession()
+            {
+                date = getDate,
+                StartTime = startTime,
+                EndTime = endTime,
+                FullTimeDuration = duration,
+            };
+
+            string insertQuery = "INSERT INTO tracker (Date, StartTime, EndTime, Duration) VALUES (@date, @StartTime, @EndTime, @FullTimeDuration)";
+            var rowsAffected = connection.Execute(insertQuery, newSession);
+            Console.WriteLine($"{rowsAffected} has been successfully added!");
+        }
+
     }
 
     // Update a session
