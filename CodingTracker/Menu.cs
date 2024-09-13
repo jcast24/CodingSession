@@ -11,9 +11,10 @@ public class Menu()
     public static void ShowMenu()
     {
         DatabaseService db = new DatabaseService(connectionString);
+        Engine engine = new Engine(db);
 
-        
-        Console.Clear();
+        engine.CreateTable();
+
         // SpectreConsole Test
         string option = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
@@ -39,19 +40,19 @@ public class Menu()
                 break;
             case "1. Show all Sessions":
                 // Show all sessions
-                CodingController.DisplayAllSessions();
+                engine.DisplayAllSessions();
                 break;
             case "2. Start a new session":
                 // Start a new session
-                CodingController.InsertSession();
+                engine.InsertSession();
                 break;
             case "3. Modify a session":
                 // Modify a session
                 // Allows the user to enter a new time, new date
-                CodingController.UpdateSession();
+                engine.UpdateSession();
                 break;
             case "4. Delete a session":
-                CodingController.DeleteSession();
+                engine.DeleteSession();
                 break;
             case "5. Start Timer":
                 // Start timer
