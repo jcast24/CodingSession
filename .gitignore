@@ -5,3 +5,5 @@ obj/
 bin/
 
 tracker.db
+
+CodingTracker/app.config
