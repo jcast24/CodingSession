@@ -64,8 +64,13 @@ public class Engine
 
         // Calculate the duration between start and endtime
         // Convert getStartTime && getEndTime to TimeSpan
-        TimeSpan startTime = TimeSpan.Parse(getStartTime, new CultureInfo("en-US"));
-        TimeSpan endTime = TimeSpan.Parse(getEndTime, new CultureInfo("en-US"));
+        // TimeSpan startTime = TimeSpan.Parse(getStartTime, new CultureInfo("en-US"));
+        // TimeSpan endTime = TimeSpan.Parse(getEndTime, new CultureInfo("en-US"));
+        
+        // Null check with default value
+        TimeSpan startTime = getStartTime != null ? TimeSpan.Parse(getStartTime, new CultureInfo("en-US")) : TimeSpan.Zero;
+        TimeSpan endTime = getEndTime != null ? TimeSpan.Parse(getEndTime, new CultureInfo("en-US")) : TimeSpan.Zero;
+
         TimeSpan duration = endTime - startTime;
 
         // Get the current date 
