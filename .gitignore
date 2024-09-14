@@ -4,4 +4,4 @@ obj/
 
 bin/
 
-db.sqlite
+tracker.db
