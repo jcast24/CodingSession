@@ -6,4 +6,4 @@ bin/
 
 tracker.db
 
-CodingTracker/app.config
+app.config
