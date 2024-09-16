@@ -13,6 +13,8 @@ public class Menu()
         DatabaseService db = new DatabaseService(connectionString);
         Engine engine = new Engine(db);
 
+        CodingSession session = new CodingSession();
+
         engine.CreateTable();
 
         // SpectreConsole Test
@@ -46,7 +48,7 @@ public class Menu()
                 // Start a new session
                 engine.InsertSession();
                 break;
-            case "3. Modify a session":
+            case "3. Modify a Session":
                 // Modify a session
                 // Allows the user to enter a new time, new date
                 engine.UpdateSession();
