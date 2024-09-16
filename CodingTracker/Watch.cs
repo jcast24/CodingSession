@@ -5,7 +5,7 @@ namespace CodingTracker;
 class Watch
 {
     // Get the date from user
-    public static DateTime GetDateInput()
+    public static string GetDateInput()
     {
         Console.WriteLine("Please enter the date with the format (dd-mm-yyyy): ");
         string getDate = Console.ReadLine() ?? "";
@@ -20,15 +20,17 @@ class Watch
             DateTimeStyles.None,
             out DateTime parsedDate
         );
-        return parsedDate;
+        
+        string formattedDate = parsedDate.ToString("dd-mm-yyyy");
+        return formattedDate;
     }
 
+
     // Get the current Date 
-    public static DateTime GetCurrentDate()
+    public static string GetCurrentDate()
     {
-        DateTime today = DateTime.Today;
-        return today;
-        // return today.ToString("d", CultureInfo.CreateSpecificCulture("en-US"));
+        DateTime today = DateTime.Now;
+        return today.ToString("d", CultureInfo.CreateSpecificCulture("en-US"));
     }
 
     // Get the current time 
