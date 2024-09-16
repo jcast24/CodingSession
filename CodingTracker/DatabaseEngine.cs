@@ -64,39 +64,66 @@ public class Engine
 
         // Calculate the duration between start and endtime
         // Convert getStartTime && getEndTime to TimeSpan
-        // TimeSpan startTime = TimeSpan.Parse(getStartTime, new CultureInfo("en-US"));
-        // TimeSpan endTime = TimeSpan.Parse(getEndTime, new CultureInfo("en-US"));
-        
+
         // Null check with default value
-        TimeSpan startTime = getStartTime != null ? TimeSpan.Parse(getStartTime, new CultureInfo("en-US")) : TimeSpan.Zero;
-        TimeSpan endTime = getEndTime != null ? TimeSpan.Parse(getEndTime, new CultureInfo("en-US")) : TimeSpan.Zero;
+        TimeSpan startTime =
+            getStartTime != null
+                ? TimeSpan.Parse(getStartTime, new CultureInfo("en-US"))
+                : TimeSpan.Zero;
+        TimeSpan endTime =
+            getEndTime != null
+                ? TimeSpan.Parse(getEndTime, new CultureInfo("en-US"))
+                : TimeSpan.Zero;
 
         TimeSpan duration = endTime - startTime;
 
-        // Get the current date 
-        DateTime getDate = Watch.GetCurrentDate();
+        // Get the current date
+        // string getDate = Watch.GetCurrentDate();
+
+        string getDate = Watch.GetCurrentDate();
 
         using (var connection = _dbService.CreateConnection())
         {
-            CodingSession newSession = new CodingSession()
-            {
-                date = getDate,
-                StartTime = startTime,
-                EndTime = endTime,
-                FullTimeDuration = duration,
-            };
-
-            string insertQuery = "INSERT INTO tracker (Date, StartTime, EndTime, Duration) VALUES (@date, @StartTime, @EndTime, @FullTimeDuration)";
-            var rowsAffected = connection.Execute(insertQuery, newSession);
+            string insertQuery =
+                "INSERT INTO tracker (Date, StartTime, EndTime, Duration) VALUES (@date, @StartTime, @EndTime, @FullTimeDuration)";
+            var rowsAffected = connection.Execute(
+                insertQuery,
+                new CodingSession
+                {
+                    date = getDate,
+                    StartTime = startTime,
+                    EndTime = endTime,
+                    FullTimeDuration = duration,
+                }
+            );
             Console.WriteLine($"{rowsAffected} has been successfully added!");
         }
-
     }
 
     // Update a session
     public void UpdateSession()
     {
-        Console.WriteLine("Update a session");
+        // Ask for ID
+        // update date, and time
+        // create update query
+        // output success
+
+        Console.WriteLine("Enter id of session you would like to change: ");
+        string? getID = Console.ReadLine();
+
+        using (var connection = _dbService.CreateConnection())
+        {
+            // get date
+            string getDate = Watch.GetDateInput();
+
+            Console.WriteLine("Enter new start time: ");
+            string? startTime = Console.ReadLine();
+
+            Console.WriteLine("Enter new end time: ");
+            string? endTime = Console.ReadLine();
+
+            string updateQuery = "UPDATE tracker SET Date = @getDate, StartTime = @startTime, EndTime = @endTime, ";
+        }
     }
 
     // Delete a session
