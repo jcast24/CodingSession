@@ -1,6 +1,5 @@
 // Handle all CRUD operations with database here
 using System.Data.SQLite;
-using System.Globalization;
 using Dapper;
 
 namespace CodingTracker;
@@ -56,26 +55,32 @@ public class Engine
     // Ask user if they would like to enter a start time and endtime or if they would like to use the stopwatch
     public void InsertSession()
     {
-        Console.WriteLine("Enter your start time: ");
-        string? getStartTime = Console.ReadLine();
-
-        Console.WriteLine("Enter your end time: ");
-        string? getEndTime = Console.ReadLine();
+        // Console.WriteLine("Enter your start time: ");
+        // string? getStartTime = Console.ReadLine();
+        //
+        // Console.WriteLine("Enter your end time: ");
+        // string? getEndTime = Console.ReadLine();
 
         // Calculate the duration between start and endtime
         // Convert getStartTime && getEndTime to TimeSpan
 
         // Null check with default value
-        TimeSpan startTime =
-            getStartTime != null
-                ? TimeSpan.Parse(getStartTime, new CultureInfo("en-US"))
-                : TimeSpan.Zero;
-        TimeSpan endTime =
-            getEndTime != null
-                ? TimeSpan.Parse(getEndTime, new CultureInfo("en-US"))
-                : TimeSpan.Zero;
+        // TimeSpan startTime =
+        //     getStartTime != null
+        //         ? TimeSpan.Parse(getStartTime, new CultureInfo("en-US"))
+        //         : TimeSpan.Zero;
+        // TimeSpan endTime =
+        //     getEndTime != null
+        //         ? TimeSpan.Parse(getEndTime, new CultureInfo("en-US"))
+        //         : TimeSpan.Zero;
 
-        TimeSpan duration = endTime - startTime;
+        TimeSpan startTime = ValidateInput.CheckStartTime();
+
+        TimeSpan endTime = ValidateInput.CheckEndTime();
+
+        // TimeSpan duration = endTime - startTime;
+
+        TimeSpan duration = ValidateInput.Duration(startTime, endTime);
 
         // Get the current date
         // string getDate = Watch.GetCurrentDate();
@@ -109,20 +114,31 @@ public class Engine
         // output success
 
         Console.WriteLine("Enter id of session you would like to change: ");
-        string? getID = Console.ReadLine();
+        string? getId = Console.ReadLine();
 
         using (var connection = _dbService.CreateConnection())
         {
             // get date
             string getDate = Watch.GetDateInput();
+            TimeSpan start = ValidateInput.CheckStartTime();
+            TimeSpan end = ValidateInput.CheckEndTime();
+            TimeSpan duration = ValidateInput.Duration(start, end);
 
-            Console.WriteLine("Enter new start time: ");
-            string? startTime = Console.ReadLine();
+            string updateQuery =
+                "UPDATE tracker SET Date = @Date, StartTime = @StartTime, EndTime = @EndTime, Duration = @Duration WHERE Id=@Id;";
 
-            Console.WriteLine("Enter new end time: ");
-            string? endTime = Console.ReadLine();
-
-            string updateQuery = "UPDATE tracker SET Date = @getDate, StartTime = @startTime, EndTime = @endTime, ";
+            connection.Execute(
+                updateQuery,
+                new 
+                {
+                    Id = getId,
+                    Date = getDate,
+                    StartTime = start,
+                    EndTime = end,
+                    Duration = duration,
+                }
+            );
+            Console.WriteLine("Item has been updated");
         }
     }
 
