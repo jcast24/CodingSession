@@ -13,8 +13,6 @@ public class Menu()
         DatabaseService db = new DatabaseService(connectionString);
         Engine engine = new Engine(db);
 
-        CodingSession session = new CodingSession();
-
         engine.CreateTable();
 
         bool keepRunning = true;
