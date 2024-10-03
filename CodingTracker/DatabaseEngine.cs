@@ -129,7 +129,7 @@ public class Engine
 
             connection.Execute(
                 updateQuery,
-                new 
+                new
                 {
                     Id = getId,
                     Date = getDate,
@@ -145,6 +145,15 @@ public class Engine
     // Delete a session
     public void DeleteSession()
     {
-        Console.WriteLine("Delete a session");
+        Console.WriteLine("Enter id of the session you would like to delete: ");
+        string? getId = Console.ReadLine();
+
+        using (var connection = _dbService.CreateConnection())
+        {
+            string deleteQuery = "DELETE FROM tracker WHERE Id=@Id";
+            connection.Execute(deleteQuery, new {Id = getId} );
+            Console.WriteLine("Item has been deleted.");
+            DisplayAllSessions();
+        }
     }
 }
