@@ -1,9 +1,36 @@
 using System.Globalization;
+using Spectre.Console;
 
 namespace CodingTracker;
 
-class Watch
+public class Watch
 {
+    public static void StopwatchMenu()
+    {
+        string option = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Stopwatch")
+                .AddChoices(new[] { "1. Start Timer", "2. End Timer", "3. Reset Timer", "4. Exit", "5. Go back to main menu" })
+        );
+
+        switch(option) {
+            case "1. Start Timer":
+                break;
+            case "2. End Timer":
+                break;
+            case "3. Reset Timer":
+                break;
+            case "4. Exit":
+                break;
+            case "5. Go back to main menu":
+                Menu.ShowMenu();
+                break;
+            default: 
+                Console.WriteLine("Please choose a correct option!");
+                break;
+        }
+    }
+
     // Get the date from user
     public static string GetDateInput()
     {
@@ -20,23 +47,22 @@ class Watch
             DateTimeStyles.None,
             out DateTime parsedDate
         );
-        
+
         string formattedDate = parsedDate.ToString("dd-mm-yyyy");
         return formattedDate;
     }
 
-
-    // Get the current Date 
+    // Get the current Date
     public static string GetCurrentDate()
     {
         // DateTime today = DateTime.Now;
         // return today.ToString("d", CultureInfo.CreateSpecificCulture("en-US"));
         DateTime currentDate = DateTime.Now;
         string formattedDate = string.Format("{0:dd-MM-yyyy}", currentDate);
-        return formattedDate; 
+        return formattedDate;
     }
 
-    // Get the current time 
+    // Get the current time
     public static string GetCurrentTime()
     {
         DateTime time = DateTime.Now;
