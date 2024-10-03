@@ -34,21 +34,22 @@ public class Engine
     // Display all times
     public void DisplayAllSessions()
     {
-        using (var connection = _dbService.CreateConnection())
-        {
-            var reader = connection.ExecuteReader("SELECT * FROM tracker");
-
-            while (reader.Read())
-            {
-                int id = reader.GetInt32(0);
-                string date = reader.GetString(1);
-                string startTime = reader.GetString(2);
-                string endTime = reader.GetString(3);
-                string duration = reader.GetString(4);
-
-                Console.WriteLine($"{id} {date} {startTime} {endTime} {duration}");
-            }
-        }
+        // using (var connection = _dbService.CreateConnection())
+        // {
+        //     var reader = connection.ExecuteReader("SELECT * FROM tracker");
+        //
+        //     while (reader.Read())
+        //     {
+        //         int id = reader.GetInt32(0);
+        //         string date = reader.GetString(1);
+        //         string startTime = reader.GetString(2);
+        //         string endTime = reader.GetString(3);
+        //         string duration = reader.GetString(4);
+        //
+        //         Console.WriteLine($"{id} {date} {startTime} {endTime} {duration}");
+        //     }
+        // }
+        TableVisualizer.MakeTable();
     }
 
     // Create a session
