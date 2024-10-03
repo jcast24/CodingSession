@@ -29,8 +29,11 @@ class Watch
     // Get the current Date 
     public static string GetCurrentDate()
     {
-        DateTime today = DateTime.Now;
-        return today.ToString("d", CultureInfo.CreateSpecificCulture("en-US"));
+        // DateTime today = DateTime.Now;
+        // return today.ToString("d", CultureInfo.CreateSpecificCulture("en-US"));
+        DateTime currentDate = DateTime.Now;
+        string formattedDate = string.Format("{0:dd-MM-yyyy}", currentDate);
+        return formattedDate; 
     }
 
     // Get the current time 
