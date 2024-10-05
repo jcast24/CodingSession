@@ -23,7 +23,6 @@ public class Watch
             case "4. Exit":
                 break;
             case "5. Go back to main menu":
-                Menu.ShowMenu();
                 break;
             default: 
                 Console.WriteLine("Please choose a correct option!");

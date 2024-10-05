@@ -30,8 +30,7 @@ public class Menu()
                             "2. Start a new session",
                             "3. Modify a Session",
                             "4. Delete a session",
-                            "5. Start Timer",
-                            "6. End Timer",
+                            "5. Stopwatch"
                         }
                     )
             );
@@ -58,16 +57,8 @@ public class Menu()
                 case "4. Delete a session":
                     engine.DeleteSession();
                     break;
-                case "5. Start Timer":
-                    // Start timer
-                    // If the timer has already started, then shoot message "Timer has been running"
-                    Console.WriteLine("Timer is running");
-                    Watch.Start();
-                    break;
-                case "6. End Timer":
-                    // End timer
-                    // If the time isn't running, shoot message "Timer never started"
-                    Console.WriteLine("Timer has ended");
+                case "5. Stopwatch":
+                    Watch.StopwatchMenu();
                     break;
                 default:
                     Console.WriteLine("Please choose an option!");
