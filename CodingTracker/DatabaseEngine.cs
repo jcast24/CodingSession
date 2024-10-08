@@ -27,7 +27,6 @@ public class Engine
 
             using var command = new SQLiteCommand(createTableQuery, connection);
             command.ExecuteNonQuery();
-            Console.WriteLine("Tracker table has been created!");
         }
     }
 
