@@ -1,5 +1,6 @@
 using System.Globalization;
 using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace CodingTracker;
 
@@ -10,17 +11,30 @@ public class Watch
         string option = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
                 .Title("Stopwatch")
-                .AddChoices(new[] { "1. Start Timer", "2. End Timer", "3. Reset Timer", "4. Exit", "5. Go back to main menu" })
+                .AddChoices(
+                    new[]
+                    {
+                        "1. Start Timer",
+                        "2. End Timer",
+                        "3. Reset Timer",
+                        "4. Exit",
+                        "5. Go back to main menu",
+                    }
+                )
         );
 
-        switch(option) {
+        switch (option)
+        {
             case "1. Start Timer":
                 Start();
                 break;
             case "2. End Timer":
-                if(option == "2. End Timer") {
+                if (option == "2. End Timer")
+                {
                     Console.WriteLine("Make sure to start the timer!");
                 }
+                // Return back to this menu
+                StopwatchMenu();
                 break;
             case "3. Reset Timer":
                 break;
@@ -28,7 +42,7 @@ public class Watch
                 break;
             case "5. Go back to main menu":
                 break;
-            default: 
+            default:
                 Console.WriteLine("Please choose a correct option!");
                 break;
         }
@@ -74,9 +88,29 @@ public class Watch
 
     public static void Start()
     {
-        DateTime startTime = DateTime.Now;
-        Console.WriteLine($"Stopwatch has started at {startTime}");
-        Stop();
+        // DateTime startTime = DateTime.Now;
+        // Console.WriteLine($"Stopwatch has started at {startTime}");
+        // Stop();
+        var stopwatch = new System.Diagnostics.Stopwatch();
+        stopwatch.Start();
+        AnsiConsole
+            .Live(new Panel("[cyan]Stopwatch running...[/]"))
+            .Start(ctx =>
+            {
+                while (true)
+                {
+                    ctx.UpdateTarget(
+                        new Panel($"[cyan]Elapsed Time: {stopwatch.Elapsed:hh\\:mm\\:ss\\.ff}[/]")
+                    );
+
+                    if (Console.KeyAvailable) {
+                        stopwatch.Stop();
+                        break;
+                    }
+                }
+            });
+        AnsiConsole.MarkupLine("[green]Stopwatch stopped![/]");
+        AnsiConsole.MarkupLine($"Final Time: [yellow]{stopwatch.Elapsed:hh\\:mm\\:ss\\.ff}[/]");
     }
 
     public static void Stop()
@@ -85,5 +119,16 @@ public class Watch
         Console.ReadKey();
         DateTime stopTime = DateTime.Now;
         Console.WriteLine($"{stopTime}");
+
+        Console.WriteLine("Would you like to insert into db? y/n");
+        string? option = Console.ReadLine();
+
+        if (option == "y")
+        {
+            InsertFromWatchIntoTable();
+        }
     }
+
+    // Ask the user if they would like to insert from stopwatch into sql table
+    public static void InsertFromWatchIntoTable() { }
 }
