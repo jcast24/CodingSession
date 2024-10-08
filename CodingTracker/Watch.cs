@@ -15,8 +15,12 @@ public class Watch
 
         switch(option) {
             case "1. Start Timer":
+                Start();
                 break;
             case "2. End Timer":
+                if(option == "2. End Timer") {
+                    Console.WriteLine("Make sure to start the timer!");
+                }
                 break;
             case "3. Reset Timer":
                 break;
@@ -68,22 +72,18 @@ public class Watch
         return time.ToString("hh:mm");
     }
 
-    public static DateTime Start()
+    public static void Start()
     {
-        // Console.WriteLine("Press any key to start...");
-        // Console.ReadKey();
         DateTime startTime = DateTime.Now;
-        Console.WriteLine("Press any key to stop: ");
-        Console.ReadKey();
-        Console.WriteLine(startTime);
-        return startTime;
+        Console.WriteLine($"Stopwatch has started at {startTime}");
+        Stop();
     }
 
-    public static DateTime Stop()
+    public static void Stop()
     {
         Console.WriteLine("Press any key to stop...");
         Console.ReadKey();
         DateTime stopTime = DateTime.Now;
-        return stopTime;
+        Console.WriteLine($"{stopTime}");
     }
 }
