@@ -1,6 +1,7 @@
+using System.Data.SQLite;
 using System.Globalization;
+using Dapper;
 using Spectre.Console;
-using Spectre.Console.Rendering;
 
 namespace CodingTracker;
 
@@ -92,6 +93,9 @@ public class Watch
         // Console.WriteLine($"Stopwatch has started at {startTime}");
         // Stop();
         var stopwatch = new System.Diagnostics.Stopwatch();
+
+        TimeSpan endTime;
+
         stopwatch.Start();
         AnsiConsole
             .Live(new Panel("[cyan]Stopwatch running...[/]"))
@@ -103,32 +107,43 @@ public class Watch
                         new Panel($"[cyan]Elapsed Time: {stopwatch.Elapsed:hh\\:mm\\:ss\\.ff}[/]")
                     );
 
-                    if (Console.KeyAvailable) {
+                    if (Console.KeyAvailable)
+                    {
                         stopwatch.Stop();
                         break;
                     }
                 }
             });
         AnsiConsole.MarkupLine("[green]Stopwatch stopped![/]");
-        AnsiConsole.MarkupLine($"Final Time: [yellow]{stopwatch.Elapsed:hh\\:mm\\:ss\\.ff}[/]");
-    }
+        AnsiConsole.MarkupLine(
+            $"Final Time: [yellow]{endTime = stopwatch.Elapsed:hh\\:mm\\:ss\\.ff}[/]"
+        );
 
-    public static void Stop()
-    {
-        Console.WriteLine("Press any key to stop...");
-        Console.ReadKey();
-        DateTime stopTime = DateTime.Now;
-        Console.WriteLine($"{stopTime}");
-
-        Console.WriteLine("Would you like to insert into db? y/n");
-        string? option = Console.ReadLine();
-
-        if (option == "y")
-        {
-            InsertFromWatchIntoTable();
-        }
+        InsertFromWatchIntoTable(endTime);
     }
 
     // Ask the user if they would like to insert from stopwatch into sql table
-    public static void InsertFromWatchIntoTable() { }
+    public static void InsertFromWatchIntoTable(TimeSpan end)
+    {
+        TimeSpan start = TimeSpan.Zero;
+        TimeSpan duration = ValidateInput.Duration(start, end);
+        string getDate = GetCurrentDate();
+        using (var connection = new SQLiteConnection("Data source=tracker.db"))
+        {
+            string insertQuery =
+                "INSERT INTO tracker (Date, StartTime, EndTime, Duration) VALUES(@date, @StartTime, @EndTime, @FullTimeDuration)";
+            var insertItems = connection.Execute(
+                insertQuery,
+                new CodingSession
+                {
+                    date = getDate,
+                    StartTime = start,
+                    EndTime = end,
+                    FullTimeDuration = duration,
+                }
+            );
+
+            Console.WriteLine($"Items have been successfully added!");
+        }
+    }
 }
