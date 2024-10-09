@@ -16,10 +16,7 @@ public class Watch
                     new[]
                     {
                         "1. Start Timer",
-                        "2. End Timer",
-                        "3. Reset Timer",
-                        "4. Exit",
-                        "5. Go back to main menu",
+                        "2. Go back to main menu",
                     }
                 )
         );
@@ -29,19 +26,7 @@ public class Watch
             case "1. Start Timer":
                 Start();
                 break;
-            case "2. End Timer":
-                if (option == "2. End Timer")
-                {
-                    Console.WriteLine("Make sure to start the timer!");
-                }
-                // Return back to this menu
-                StopwatchMenu();
-                break;
-            case "3. Reset Timer":
-                break;
-            case "4. Exit":
-                break;
-            case "5. Go back to main menu":
+            case "2. Go back to main menu":
                 break;
             default:
                 Console.WriteLine("Please choose a correct option!");
@@ -144,6 +129,8 @@ public class Watch
             );
 
             Console.WriteLine($"Items have been successfully added!");
+
+            Menu.ShowMenu();
         }
     }
 }
